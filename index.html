@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Clase para ocultar elementos administrativos por defecto */
+        /* Clase para ocultar elementos según el rol */
         .admin-only { display: none; }
-        
-        /* Estilo para que el botón de cerrar sesión encaje con tus otros botones */
+        .user-only { display: none; }
+
+        /* Estilo para que el botón de cerrar sesión del ADMIN encaje en la sidebar */
         .btn-logout-sidebar {
             background-color: #f8f9fa !important;
             color: #44546a !important;
@@ -22,9 +23,33 @@
             background-color: #ffebee !important;
             color: #d32f2f !important;
         }
+
+        /* Estilo para el botón de cerrar sesión del USER (Flotante arriba a la derecha) */
+        .btn-logout-user {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background-color: #1e293b;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 1000;
+            font-family: 'Segoe UI', sans-serif;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .btn-logout-user:hover {
+            background-color: #d32f2f;
+        }
     </style>
 </head>
 <body>
+
+    <button id="logout-user-btn" class="btn-logout-user user-only">
+        <i class="fas fa-sign-out-alt"></i> SALIR
+    </button>
 
     <button class="menu-toggle admin-only" id="menu-open">
         <i class="fas fa-bars"></i> <span>MENÚ</span>
@@ -55,7 +80,7 @@
             <button id="downloadExcel" class="btn-side"><i class="fas fa-file-excel"></i> DESCARGAR EXCEL</button>
             <button id="clearDB" class="btn-side danger"><i class="fas fa-trash"></i> BORRAR TODO (NUBE) ⚠️ </button>
 
-            <button id="logout-btn" class="btn-side btn-logout-sidebar">
+            <button id="logout-admin-btn" class="btn-side btn-logout-sidebar">
                 <i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN
             </button>
         </div>
@@ -118,25 +143,30 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Mostrar elementos de admin solo si corresponde
+            // Lógica de visualización por Rol
             if (userRole === 'admin') {
-                const adminElements = document.querySelectorAll('.admin-only');
-                adminElements.forEach(el => el.style.display = 'block');
+                document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
+            } else if (userRole === 'standard') {
+                // Mostrar botón de cerrar sesión específico para el usuario normal
+                document.querySelectorAll('.user-only').forEach(el => el.style.display = 'block');
             }
 
-            // Función del botón Cerrar Sesión
-            const btnLogout = document.getElementById('logout-btn');
-            if(btnLogout) {
-                btnLogout.addEventListener('click', () => {
-                    localStorage.removeItem('userRole');
-                    window.location.href = 'login.html';
-                });
-            }
+            // Función para cerrar sesión (Aplica a ambos botones)
+            const cerrarSesion = () => {
+                localStorage.removeItem('userRole');
+                window.location.href = 'login.html';
+            };
+
+            // Listener para el botón de Admin (en la sidebar)
+            const btnAdmin = document.getElementById('logout-admin-btn');
+            if(btnAdmin) btnAdmin.addEventListener('click', cerrarSesion);
+
+            // Listener para el botón de User (flotante)
+            const btnUser = document.getElementById('logout-user-btn');
+            if(btnUser) btnUser.addEventListener('click', cerrarSesion);
         });
     </script>
 
     <script type="module" src="script.js"></script>
-</body>
-</html>
 </body>
 </html>
