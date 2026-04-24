@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Empresas</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Estilo para el botón de cerrar sesión */
+        .logout-btn-container {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+        }
+        .btn-logout {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        /* Clase para ocultar elementos de administrador */
+        .admin-only { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="logout-btn-container">
+        <button id="logout-btn" class="btn-logout">
+            <i class="fas fa-sign-out-alt"></i> SALIR
+        </button>
+    </div>
+
+    <button class="menu-toggle admin-only" id="menu-open">
+        <i class="fas fa-bars"></i> <span>MENÚ</span>
+    </button>
+
+    <div class="sidebar admin-only" id="sidebar">
+        <div class="sidebar-header">
+            <h3>PANEL DE CONTROL</h3>
+            <button id="menu-close">&times;</button>
+        </div>
+        <div class="sidebar-content">
+            <div class="stat-box">
+                <label>Registros hoy:</label>
+                <span id="admin-count">0</span>
+                <label>Registros en la Nube</label>
+            </div>
+            <div class="from-grid" style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
+                <label style="color: #44546a; font-size: 0.85rem;">Empresa para Descargar:</label>
+                <select id="select-download" class="custom-sel" style="background-color: #E8E7E6;">
+                    <option value="China Civil"> China Civil</option>
+                    <option value="CWE">CWE</option>
+                    <option value="SINAR">SINAR</option>
+                    <option value="COMPANY">COMPANY</option> 
+                </select>
+            </div>
+            
+            <button id="downloadPDF" class="btn-side"><i class="fas fa-file-pdf"></i> DESCARGAR PDF</button>
+            <button id="downloadExcel" class="btn-side"><i class="fas fa-file-excel"></i> DESCARGAR EXCEL</button>
+            <button id="clearDB" class="btn-side danger"><i class="fas fa-trash"></i> BORRAR TODO (NUBE) ⚠️ </button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="container">
+        <div class="card">
+            <header class="header-centrado">
+                <img src="APU-SOL.png" alt="Logo" class="logo-img">
+                <h1 class="titulo-principal">REGISTRO DE SALIDAS DEL PERSONAL</h1>
+                <h2 class="subtitulo-empresa" id="empresa-display"></h2>
+            </header>
+            <div class="from-grid">
+                <label>Seleccionar Empresa:</label>
+        
+                <select id="select-emp" class="custom-sel">
+                    <option value="" disabled selected>SELECCIONAR...</option>
+                    <option value="China Civil"> China Civil</option>
+                    <option value="CWE">Cwe</option>
+                    <option value="SINAR">Sinar</option>
+                    <option value="COMPANY">Company</option> 
+                </select>
+            </div>
+            <div class="form-body">
+                <div class="input-group">
+                    <label>DNI</label>
+                    <input type="number" id="dni" placeholder="Ingrese DNI">
+                </div>
+                
+                <div class="input-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="nombre" placeholder="Nombre del pasajero">
+                </div>
+
+                <div class="input-group">
+                    <label>Firma</label>
+                    <div class="canvas-container">
+                        <canvas id="canvas"></canvas>
+                    </div>
+                    <button id="clear">Limpiar Firma</button>
+                </div>
+
+                <button id="save" class="btn-save">GUARDAR DATOS</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
+    <script>
+        // Se ejecuta inmediatamente para evitar que vean el contenido si no hay login
+        const userRole = localStorage.getItem('userRole');
+
+        if (!userRole) {
+            window.location.href = 'login.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mostrar elementos de admin solo si tiene el rol adecuado
+            if (userRole === 'admin') {
+                document.querySelectorAll('.admin-only').forEach(el => {
+                    el.style.display = 'block';
+                });
+            }
+
+            // Función para cerrar sesión
+            document.getElementById('logout-btn').addEventListener('click', () => {
+                localStorage.removeItem('userRole');
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>

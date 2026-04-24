@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Registro de Salidas APU</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Estilos específicos para la pantalla de Login */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .login-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+        }
+
+        .login-card img {
+            width: 120px;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-card h2 {
+            color: #44546a;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.2rem;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box; /* Importante para el padding */
+            font-size: 1rem;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background-color: #44546a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            background-color: #2c3848;
+        }
+
+        #error-msg {
+            color: #d93025;
+            background: #fce8e6;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <img src="APU-SOL.png" alt="Logo APU">
+        <h2>SISTEMA DE REGISTRO</h2>
+        
+        <div class="input-group">
+            <label><i class="fas fa-user"></i> Usuario</label>
+            <input type="text" id="username" placeholder="Ingrese su usuario">
+        </div>
+
+        <div class="input-group">
+            <label><i class="fas fa-lock"></i> Contraseña</label>
+            <input type="password" id="password" placeholder="••••••••">
+        </div>
+
+        <button id="btnLogin" class="btn-login">INGRESAR AL SISTEMA</button>
+
+        <div id="error-msg">
+            <i class="fas fa-exclamation-circle"></i> Usuario o contraseña incorrectos
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('btnLogin').addEventListener('click', login);
+
+        // También permite ingresar presionando "Enter"
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') login();
+        });
+
+        function login() {
+            const user = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value.trim();
+            const errorMsg = document.getElementById('error-msg');
+
+            // --- CREDENCIALES CONFIGURADAS ---
+            if (user === 'admin' && pass === 'admin123') {
+                // ROL ADMINISTRADOR: Ve el menú y dashboard
+                localStorage.setItem('userRole', 'admin');
+                window.location.href = 'index.html';
+            } 
+            else if (user === 'user' && pass === 'user123') {
+                // ROL ESTÁNDAR: Solo llena datos
+                localStorage.setItem('userRole', 'standard');
+                window.location.href = 'index.html';
+            } 
+            else {
+                // Credenciales fallidas
+                errorMsg.style.display = 'block';
+                // Limpiar contraseña para seguridad
+                document.getElementById('password').value = '';
+            }
+        }
+
+        // Limpiar el error cuando el usuario vuelva a escribir
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', () => {
+                document.getElementById('error-msg').style.display = 'none';
+            });
+        });
+    </script>
+
+</body>
+</html>

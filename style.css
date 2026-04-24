@@ -1,0 +1,254 @@
+/* 1. ELIMINAR FLECHAS DEL DNI (SPINNERS) */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* 2. DISEÑO GENERAL */
+body {
+    background: #f1f5f9;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    padding: 35px;
+    border-radius: 25px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* 3. CENTRADO DE LOGO Y TÍTULOS */
+.header-centrado {
+    text-align: center; /* ESTO CENTRA TODO EL CONTENIDO */
+    margin-bottom: 25px;
+}
+
+.logo-img {
+    max-width: 120px;   /* Ajusta el tamaño de tu logo aquí */
+    height: auto;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+.titulo-principal {
+    font-size: 1.6rem;
+    color: #1e293b;
+    margin: 0;
+    font-weight: 800;
+    line-height: 1.2;
+}
+.subtitulo-empresa {
+    font-size: 1.1rem;
+    color: #FFE200; /* COLOR AZUL DISTINTO PARA CHINA CIVIL */
+    margin-top: 5px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* 4. FORMULARIO */
+.input-group { margin-bottom: 15px; }
+label { display: block; font-weight: 700; color: #475569; margin-bottom: 5px; font-size: 0.9rem; }
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.canvas-container {
+    border: 2px dashed #cbd5e1;
+    border-radius: 15px;
+    background: #fff;
+}
+
+canvas { width: 100%; height: 150px; cursor: crosshair; display: block; }
+
+#clear {
+    background: none; border: none; color: #ef4444;
+    font-weight: 700; cursor: pointer; font-size: 0.8rem; margin-top: 5px;
+}
+
+.btn-save {
+    width: 100%;
+    padding: 16px;
+    background: #1e293b;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* 5. SIDEBAR */
+.menu-toggle {
+    position: fixed; top: 20px; left: 20px;
+    background: #1e293b; color: white; border: none;
+    padding: 10px 20px; border-radius: 10px; cursor: pointer; z-index: 1000;
+}
+.sidebar {
+    position: fixed; top: 0; left: -320px;
+    width: 300px; height: 100%; background: white;
+    z-index: 2000; transition: 0.3s; padding: 25px;
+    box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+}
+.sidebar.open { left: 0; }
+.btn-side { width: 100%; padding: 15px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #e2e8f0; text-align: left; cursor: pointer; font-weight: bold; }
+
+/*SLIDE DE EMPRESAS*/
+/* Contenedor del grupo */
+.from-grid {
+    margin-bottom: 15px;
+    font-family: Arial, Helvetica, sans-serif; /* Tipografía limpia */
+}
+
+/* Estilo exacto para el Label */
+.from-grid label {
+    display: block;
+    color: #44546a;       /* Color gris azulado de la captura */
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 8px;   /* Espacio entre etiqueta y select */
+}
+
+/* Estilo exacto para el Select */
+#select-emp {
+    width: 100% !important;   /* Asegura el ancho total */
+    padding: 6px 8px !important; /* Más aire interno que el original */
+    border: 1px solid #767676 !important; /* Borde fino oscuro */
+    border-radius: 8px !important;
+    background-color: #EFF1F3;
+    color: #000000;
+    font-size: 15px;
+    appearance: auto; /* Mantiene la flecha estándar de la captura */
+}
+.from-grid label {
+    color: #44546a; /* Este es el tono gris azulado de la imagen */
+    font-weight: 600; /* Para que resalte como en la captura */
+}
+
+/*-------------------------------------------*/
+/* Contenedor del filtro de descarga en el sidebar */
+.download-filter-group {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e2e8f0; /* Línea sutil divisoria */
+}
+
+/* Estilo para el label del sidebar */
+.label-download {
+    display: block;
+    color: #ffff; /* El gris azulado que pediste */
+    font-weight: bold;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+/* Estilo para el select del sidebar */
+#select-download {
+    width: 100%;
+    padding: 10px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px; /* Borde curveado profesional */
+    background-color: #f8fafc; /* Gris muy claro para diferenciarlo */
+    color: #000000;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#select-download:focus {
+    border-color: #2563eb;
+    background-color: #767676;
+}
+
+/*-----------------------------------------*/
+#menu-close {
+    background: #f1f5f9;      /* Gris muy claro de fondo */
+    color: #44546a;           /* Tu gris azulado corporativo */
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;       /* Lo hace perfectamente circular */
+    font-size: 22px;
+    line-height: 35px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Para que el cambio de color sea suave */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Efecto al pasar el mouse */
+#menu-close:hover {
+    background: #ef4444;      /* Rojo suave al querer cerrar */
+    color: white;             /* La X se vuelve blanca */
+    transform: rotate(90deg); /* Un pequeño giro para que se vea pro */
+    box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+}
+
+/* Ajuste para el header del sidebar */
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+/**/
+/* Este es el ID o Clase donde muestras el nombre de la empresa */
+#empresa-display {
+    font-family: 'Montserrat', sans-serif; /* Si no existe, usa la siguiente */
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+    font-weight: 800; /* Para que se vea gruesa y potente */
+    text-transform: uppercase; /* Todo en mayúsculas */
+    letter-spacing: 2px; /* Espaciado entre letras tipo logo */
+    color: #3868b4; /* Un color azul oscuro elegante */
+}
+
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+#select-emp {
+    font-family: "Poppins", serif;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* Si el select está en la opción por defecto, podemos ponerle un borde de advertencia */
+#select-emp:invalid {
+    border-color: #f87171; /* Rojo suave */
+}
+
+/* Estilo para el nombre de la empresa que se muestra arriba */
+#empresa-display {
+    font-family: 'Poppins', serif; /* La tipografía que querías */
+    color: #ff0000;
+    font-weight: bold;
+}
