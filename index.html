@@ -3,138 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro Empresas</title>
+    <title>Login - Registro de Salidas APU</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Clase para ocultar elementos administrativos por defecto */
-        .admin-only { display: none; }
-        
-        /* Estilo para que el botón de cerrar sesión encaje con tus otros botones */
-        .btn-logout-sidebar {
-            background-color: #f8f9fa !important;
-            color: #44546a !important;
-            border: 1px solid #ddd !important;
-            margin-top: 30px !important;
-            font-weight: bold;
+        /* DISEÑO MINIMALISTA Y COMPACTO */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #F1F5F9; /* Gris fondo oficial */
+            font-family: 'Segoe UI', sans-serif;
         }
-        .btn-logout-sidebar:hover {
-            background-color: #ffebee !important;
-            color: #d32f2f !important;
+
+        .login-card {
+            background: #FFFFFF;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 360px; /* Más estrecho y minimalista */
+            text-align: center;
+        }
+
+        .login-card img {
+            width: 110px; /* Logo un poco más pequeño */
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        .login-card h2 {
+            color: #000000;
+            margin-bottom: 1.8rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .input-group {
+            margin-bottom: 1.2rem;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #1F1F1F;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* BORDES CONTINUOS Y FINOS */
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1.5px solid #AEB6C3; /* Gris medio continuo */
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 0.95rem;
+            background: #FFFFFF;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #1E293B; /* Azul principal al enfocar */
+        }
+
+        .input-group input::placeholder {
+            color: #B2B4B6;
+        }
+
+        /* BOTÓN COMPACTO */
+        .btn-login {
+            width: 100%; /* Botón al ancho total para que se vea ordenado */
+            padding: 12px;
+            background-color: #1E293B;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .btn-login:hover {
+            background-color: #000000;
+        }
+
+        #error-msg {
+            color: #FF0000;
+            background: #FCE8E6;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            margin-top: 15px;
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <button class="menu-toggle admin-only" id="menu-open">
-        <i class="fas fa-bars"></i> <span>MENÚ</span>
-    </button>
-
-    <div class="sidebar admin-only" id="sidebar">
-        <div class="sidebar-header">
-            <h3>PANEL DE CONTROL</h3>
-            <button id="menu-close">&times;</button>
-        </div>
-        <div class="sidebar-content">
-            <div class="stat-box">
-                <label>Registros hoy:</label>
-                <span id="admin-count">0</span>
-                <label>Registros en la Nube</label>
-            </div>
-            <div class="from-grid" style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
-                <label style="color: #44546a; font-size: 0.85rem;">Empresa para Descargar:</label>
-                <select id="select-download" class="custom-sel" style="background-color: #E8E7E6;">
-                    <option value="China Civil"> China Civil</option>
-                    <option value="CWE">CWE</option>
-                    <option value="SINAR">SINAR</option>
-                    <option value="COMPANY">COMPANY</option> 
-                </select>
-            </div>
-            
-            <button id="downloadPDF" class="btn-side"><i class="fas fa-file-pdf"></i> DESCARGAR PDF</button>
-            <button id="downloadExcel" class="btn-side"><i class="fas fa-file-excel"></i> DESCARGAR EXCEL</button>
-            <button id="clearDB" class="btn-side danger"><i class="fas fa-trash"></i> BORRAR TODO (NUBE) ⚠️ </button>
-
-            <button id="logout-btn" class="btn-side btn-logout-sidebar">
-                <i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN
-            </button>
-        </div>
-    </div>
-
-    <div class="overlay" id="overlay"></div>
-
-    <div class="container">
-        <div class="card">
-            <header class="header-centrado">
-                <img src="APU-SOL.png" alt="Logo" class="logo-img">
-                <h1 class="titulo-principal">REGISTRO DE SALIDAS DEL PERSONAL</h1>
-                <h2 class="subtitulo-empresa" id="empresa-display"></h2>
-            </header>
-            <div class="from-grid">
-                <label>Seleccionar Empresa:</label>
+    <div class="login-card">
+        <img src="APU-SOL.png" alt="Logo APU">
+        <h2>Iniciar Sesión</h2>
         
-                <select id="select-emp" class="custom-sel">
-                    <option value="" disabled selected>SELECCIONAR...</option>
-                    <option value="China Civil"> China Civil</option>
-                    <option value="CWE">Cwe</option>
-                    <option value="SINAR">Sinar</option>
-                    <option value="COMPANY">Company</option> 
-                </select>
-            </div>
-            <div class="form-body">
-                <div class="input-group">
-                    <label>DNI</label>
-                    <input type="number" id="dni" placeholder="Ingrese DNI">
-                </div>
-                
-                <div class="input-group">
-                    <label>Nombre Completo</label>
-                    <input type="text" id="nombre" placeholder="Nombre del pasajero">
-                </div>
+        <div class="input-group">
+            <label>Usuario</label>
+            <input type="text" id="username" placeholder="Ingrese su usuario">
+        </div>
 
-                <div class="input-group">
-                    <label>Firma</label>
-                    <div class="canvas-container">
-                        <canvas id="canvas"></canvas>
-                    </div>
-                    <button id="clear">Limpiar Firma</button>
-                </div>
+        <div class="input-group">
+            <label>Contraseña</label>
+            <input type="password" id="password" placeholder="Ingrese su contraseña">
+        </div>
 
-                <button id="save" class="btn-save">GUARDAR DATOS</button>
-            </div>
+        <button id="btnLogin" class="btn-login">INGRESAR</button>
+
+        <div id="error-msg">
+            <i class="fas fa-exclamation-circle"></i> Credenciales incorrectas
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    
     <script>
-        // Verificación de seguridad inmediata
-        const userRole = localStorage.getItem('userRole');
+        document.getElementById('btnLogin').addEventListener('click', login);
 
-        if (!userRole) {
-            window.location.href = 'login.html';
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') login();
+        });
+
+        function login() {
+            const user = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value.trim();
+            const errorMsg = document.getElementById('error-msg');
+
+            if (user === 'admin' && pass === 'admin123') {
+                localStorage.setItem('userRole', 'admin');
+                window.location.href = 'index.html';
+            } 
+            else if (user === 'user' && pass === 'user123') {
+                localStorage.setItem('userRole', 'standard');
+                window.location.href = 'index.html';
+            } 
+            else {
+                errorMsg.style.display = 'block';
+                document.getElementById('password').value = '';
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Mostrar elementos de admin solo si corresponde
-            if (userRole === 'admin') {
-                const adminElements = document.querySelectorAll('.admin-only');
-                adminElements.forEach(el => el.style.display = 'block');
-            }
-
-            // Función del botón Cerrar Sesión
-            const btnLogout = document.getElementById('logout-btn');
-            if(btnLogout) {
-                btnLogout.addEventListener('click', () => {
-                    localStorage.removeItem('userRole');
-                    window.location.href = 'login.html';
-                });
-            }
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', () => {
+                document.getElementById('error-msg').style.display = 'none';
+            });
         });
     </script>
 
-    <script type="module" src="script.js"></script>
 </body>
 </html>
