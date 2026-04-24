@@ -7,37 +7,24 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Estilo para el botón de cerrar sesión */
-        .logout-btn-container {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            z-index: 1000;
-        }
-        .btn-logout {
-            background: #ff4d4d;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        /* Clase para ocultar elementos de administrador */
+        /* Clase para ocultar elementos administrativos por defecto */
         .admin-only { display: none; }
+        
+        /* Estilo para que el botón de cerrar sesión encaje con tus otros botones */
+        .btn-logout-sidebar {
+            background-color: #f8f9fa !important;
+            color: #44546a !important;
+            border: 1px solid #ddd !important;
+            margin-top: 30px !important;
+            font-weight: bold;
+        }
+        .btn-logout-sidebar:hover {
+            background-color: #ffebee !important;
+            color: #d32f2f !important;
+        }
     </style>
 </head>
 <body>
-
-    <div class="logout-btn-container">
-        <button id="logout-btn" class="btn-logout">
-            <i class="fas fa-sign-out-alt"></i> SALIR
-        </button>
-    </div>
 
     <button class="menu-toggle admin-only" id="menu-open">
         <i class="fas fa-bars"></i> <span>MENÚ</span>
@@ -67,6 +54,10 @@
             <button id="downloadPDF" class="btn-side"><i class="fas fa-file-pdf"></i> DESCARGAR PDF</button>
             <button id="downloadExcel" class="btn-side"><i class="fas fa-file-excel"></i> DESCARGAR EXCEL</button>
             <button id="clearDB" class="btn-side danger"><i class="fas fa-trash"></i> BORRAR TODO (NUBE) ⚠️ </button>
+
+            <button id="logout-btn" class="btn-side btn-logout-sidebar">
+                <i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN
+            </button>
         </div>
     </div>
 
@@ -119,7 +110,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     
     <script>
-        // Se ejecuta inmediatamente para evitar que vean el contenido si no hay login
+        // Verificación de seguridad inmediata
         const userRole = localStorage.getItem('userRole');
 
         if (!userRole) {
@@ -127,18 +118,20 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Mostrar elementos de admin solo si tiene el rol adecuado
+            // Mostrar elementos de admin solo si corresponde
             if (userRole === 'admin') {
-                document.querySelectorAll('.admin-only').forEach(el => {
-                    el.style.display = 'block';
-                });
+                const adminElements = document.querySelectorAll('.admin-only');
+                adminElements.forEach(el => el.style.display = 'block');
             }
 
-            // Función para cerrar sesión
-            document.getElementById('logout-btn').addEventListener('click', () => {
-                localStorage.removeItem('userRole');
-                window.location.href = 'login.html';
-            });
+            // Función del botón Cerrar Sesión
+            const btnLogout = document.getElementById('logout-btn');
+            if(btnLogout) {
+                btnLogout.addEventListener('click', () => {
+                    localStorage.removeItem('userRole');
+                    window.location.href = 'login.html';
+                });
+            }
         });
     </script>
 
